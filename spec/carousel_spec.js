@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const CarouselClass = require("../src/carousel");
-const ViewportDetect = require("viewport-detection-es6");
+// const ViewportDetect = require("viewport-detection-es6");
 
 function createCarousel() {
   let carouselInner = document.createElement("div");
@@ -92,8 +92,8 @@ describe("carousel", () => {
 
   beforeEach(() => {
     c = createCarousel();
-    viewport = new ViewportDetect();
-    revert   = CarouselClass.__set__("viewport", viewport)
+    viewport = CarouselClass.__get__("viewport")//new ViewportDetect();
+    // revert   = CarouselClass.__set__("viewport", viewport)
 
     carousel = new CarouselClass({
       element: c,
@@ -102,9 +102,9 @@ describe("carousel", () => {
     }, false);
   });
 
-  afterEach(()=>{
-    revert();
-  })
+  // afterEach(()=>{
+  //   revert();
+  // })
 
   it("should exist", () => {
     expect(carousel).toBeDefined();

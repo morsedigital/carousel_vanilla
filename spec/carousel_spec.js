@@ -88,11 +88,12 @@ function createCarouselOverlays(carouselImageContainer, i) {
 }
 
 describe("carousel", () => {
-  let c, carousel, viewport;
+  let c, carousel, viewport, revert;
 
   beforeEach(() => {
     c = createCarousel();
     viewport = new ViewportDetect();
+    revert   = CarouselClass.__set__("viewport", viewport)
 
     carousel = new CarouselClass({
       element: c,
@@ -100,6 +101,10 @@ describe("carousel", () => {
       itemClass: "carousel-item"
     }, false);
   });
+
+  afterEach(()=>{
+    revert();
+  })
 
   it("should exist", () => {
     expect(carousel).toBeDefined();

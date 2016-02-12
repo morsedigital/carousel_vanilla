@@ -92,8 +92,7 @@ describe("carousel", () => {
 
   beforeEach(() => {
     c = createCarousel();
-    viewport = CarouselClass.__get__("viewport")//new ViewportDetect();
-    // revert   = CarouselClass.__set__("viewport", viewport)
+    viewport = CarouselClass.__get__("viewport");
 
     carousel = new CarouselClass({
       element: c,

@@ -1,6 +1,5 @@
 const _ = require("lodash");
 const CarouselClass = require("../src/carousel");
-// const ViewportDetect = require("viewport-detection-es6");
 
 function createCarousel() {
   let carouselInner = document.createElement("div");
@@ -88,7 +87,7 @@ function createCarouselOverlays(carouselImageContainer, i) {
 }
 
 describe("carousel", () => {
-  let c, carousel, viewport, revert;
+  let c, carousel, viewport;
 
   beforeEach(() => {
     c = createCarousel();
@@ -100,10 +99,6 @@ describe("carousel", () => {
       itemClass: "carousel-item"
     }, false);
   });
-
-  // afterEach(()=>{
-  //   revert();
-  // })
 
   it("should exist", () => {
     expect(carousel).toBeDefined();
@@ -161,19 +156,26 @@ describe("carousel", () => {
 
   describe("_initViewport function", () => {
     beforeEach(() => {
+      spyOn(viewport, "getDevice").and.returnValue("massive swanky monitor");
+      spyOn(viewport, "windowSize").and.returnValue("99999px");
       spyOn(viewport, "trackSize");
-      spyOn(viewport, "getDevice").and.returnValue("bollocks");
+
+      carousel._initViewport();
+
     });
 
     it("should set this.device to the viewport.getDevice function", () => {
-      carousel._initViewport();
 
-      expect(carousel.device).toEqual("bollocks");
+      expect(carousel.device).toEqual("massive swanky monitor");
     });
 
-    // Ade, why is this failing? I'm confused!
-    // it("should call the viewport.trackSize function", () => {
-    //   expect(viewport.trackSize).toHaveBeenCalled();
-    // });
+    it("should set this.size to the viewport.windowSize function", () => {
+
+      expect(carousel.size).toEqual("99999px");
+    });
+
+    it("should call the viewport.trackSize function", () => {
+      expect(viewport.trackSize).toHaveBeenCalled();
+    });
   });
 });

@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const CarouselClass = require("../src/carousel");
+const ViewportDetect = require("viewport-detection-es6");
 
 function createCarousel() {
   let carouselInner = document.createElement("div");
@@ -87,10 +88,11 @@ function createCarouselOverlays(carouselImageContainer, i) {
 }
 
 describe("carousel", () => {
-  let c, carousel;
+  let c, carousel, viewport;
 
   beforeEach(() => {
     c = createCarousel();
+    viewport = new ViewportDetect();
 
     carousel = new CarouselClass({
       element: c,
@@ -121,6 +123,53 @@ describe("carousel", () => {
   });
 
   describe("_init function", () => {
-    
+    beforeEach(() => {
+      spyOn(carousel, "render");
+
+      carousel._init();
+    });
+
+    it("should set this.animating to false", () => {
+      expect(carousel.animating).toBeFalsy();
+    });
+
+    it("should set this.eventManager to the _manageListeners function", () => {
+      expect(carousel.eventManager.addListener).toBeDefined();
+      expect(carousel.eventManager.removeAll).toBeDefined();
+    });
+
+    it("should set this.hasDataURLs to false", () => {
+      expect(carousel.hasDataURLs).toBeFalsy();
+    });
+
+    it("should set this.itemActive to 0", () => {
+      expect(carousel.itemActive).toEqual(0);
+    });
+
+    it("should set this.items to be an empty array", () => {
+      expect(carousel.items.length).toEqual(0);
+    });
+
+    it("should call the render function", () => {
+      expect(carousel.render).toHaveBeenCalled();
+    });
+  });
+
+  describe("_initViewport function", () => {
+    beforeEach(() => {
+      spyOn(viewport, "trackSize");
+      spyOn(viewport, "getDevice").and.returnValue("bollocks");
+    });
+
+    it("should set this.device to the viewport.getDevice function", () => {
+      carousel._initViewport();
+
+      expect(carousel.device).toEqual("bollocks");
+    });
+
+    // Ade, why is this failing? I'm confused!
+    // it("should call the setBodyClasses function", () => {
+    //   expect(viewport.trackSize).toHaveBeenCalled();
+    // });
   });
 });

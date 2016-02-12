@@ -173,7 +173,7 @@ describe("carousel", () => {
     });
 
     // Ade, why is this failing? I'm confused!
-    // it("should call the setBodyClasses function", () => {
+    // it("should call the viewport.trackSize function", () => {
     //   expect(viewport.trackSize).toHaveBeenCalled();
     // });
   });

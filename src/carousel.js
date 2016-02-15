@@ -77,7 +77,7 @@ class CarouselClass {
 
       _.forEach(dataURLs, (dataURL) => {
         _.map(dataURL, (v, k) => {
-          if((_.isNull(v)) || (_.includes(v, "null"))) {
+          if((_.isEmpty(v)) || (_.isNull(v)) || (_.includes(v, "null"))) {
             this._overrideNullDataURLs(k, dataURLDesktop, imageContainer);
           }
         });

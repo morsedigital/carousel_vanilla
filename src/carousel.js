@@ -1,4 +1,8 @@
-const _ = require("lodash");
+const _ = require("lodash/core");
+_.includes = require("lodash/includes");
+_.times = require("lodash/times");
+_.difference = require("lodash/difference");
+
 const ViewportDetect = require("viewport-detection-es6");
 const viewport = new ViewportDetect();
 
@@ -63,7 +67,7 @@ class CarouselClass {
 
   _checkDataURLs() {
     let dataURLs, imageContainer, dataURLMobile, dataURLTablet, dataURLDesktop;
-    
+
     _.forEach(this.items, function(item) {
       imageContainer = this._skipTextNodes(item, "firstChild");
       dataURLMobile = imageContainer.getAttribute("data-mobile");

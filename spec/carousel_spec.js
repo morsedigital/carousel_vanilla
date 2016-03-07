@@ -295,6 +295,27 @@ describe("carousel", () => {
 
   // });
 
+  // describe("_setSelected function", () => {
+  //   beforeEach(() => {
+  //     carousel.eventManager = carousel._manageListeners();
+  //     carousel.itemActive = 0;
+
+  //     spyOn(carousel, "_animateItemStart");
+  //     spyOn(carousel, "_setDotClass");
+  //     spyOn(carousel, "_setPosition").and.returnValue({inPos: 0, outPos: 0});
+
+  //     carousel._setSelected("next");
+  //   });
+
+  //   it("s", () => {
+
+  //   });
+  // });
+
+  // describe("_skipTextNodes function", () => {
+
+  // });
+
   describe("_startAutoPlay function", () => {
     beforeEach(() => {
       carousel.items = carousel.config.element.querySelectorAll("." + carousel.config.itemClass);

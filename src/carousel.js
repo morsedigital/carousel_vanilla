@@ -10,7 +10,8 @@ class CarouselClass{
   constructor(config = {}, init = true){
     this.config = _.defaults(config,
       {itemClass: 'carousel-item'
-      , autoPlay: false}
+      , autoPlay: false
+      , naturalScroll: true}
     );
 
     if (init){
@@ -56,15 +57,27 @@ class CarouselClass{
   }
 
   _addNextListener(){
-    this.nextButton.addEventListener('click'
+    if (this.config.naturalScroll){
+      this.nextButton.addEventListener('click'
                                     , this._next.bind(this)
                                     , false);
+    } else {
+      this.nextButton.addEventListener('click'
+                                    , this._previous.bind(this)
+                                    , false);
+    }
   }
 
   _addPreviousListener(){
-    this.previousButton.addEventListener('click'
+    if (this.config.naturalScroll){
+      this.previousButton.addEventListener('click'
                                         , this._previous.bind(this)
                                         , false);
+    } else {
+      this.previousButton.addEventListener('click'
+                                        , this._next.bind(this)
+                                        , false);
+    }
   }
 
   _animateItemFinish(e){
@@ -293,10 +306,10 @@ class CarouselClass{
     if (!this.animating){
       this.itemOut = this.itemActive;
 
-      if (this.itemActive < this.items.length - 1){
-        this.itemActive++;
+      if (this.itemActive > 0){
+        this.itemActive--;
       } else {
-        this.itemActive = 0;
+        this.itemActive = this.items.length - 1;
       }
 
       this._setSelected('next');
@@ -309,10 +322,10 @@ class CarouselClass{
     if (!this.animating){
       this.itemOut = this.itemActive;
 
-      if (this.itemActive > 0){
-        this.itemActive--;
+      if (this.itemActive < this.items.length - 1){
+        this.itemActive++;
       } else {
-        this.itemActive = this.items.length - 1;
+        this.itemActive = 0;
       }
 
       this._setSelected('previous');
@@ -368,11 +381,11 @@ class CarouselClass{
     let inPos, outPos;
 
     if (direction === 'next'){
-      inPos = -position + 'px';
-      outPos = position + 'px';
-    } else if (direction === 'previous'){
       inPos = position + 'px';
       outPos = -position + 'px';
+    } else if (direction === 'previous'){
+      inPos = -position + 'px';
+      outPos = position + 'px';
     }
 
     return {
@@ -405,13 +418,23 @@ class CarouselClass{
   _startAutoPlay(){
     this.itemOut = this.itemActive;
 
-    if (this.itemActive < this.items.length - 1){
-      this.itemActive++;
-    } else {
-      this.itemActive = 0;
-    }
+    if (this.config.naturalScroll){
+      if (this.itemActive > 0){
+        this.itemActive--;
+      } else {
+        this.itemActive = this.items.length - 1;
+      }
 
-    this._setSelected('next');
+      this._setSelected('next');
+    } else {
+      if (this.itemActive < this.items.length - 1){
+        this.itemActive++;
+      } else {
+        this.itemActive = 0;
+      }
+
+      this._setSelected('previous');
+    }
   }
 
   _stopAutoPlay(){

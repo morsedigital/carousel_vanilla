@@ -368,7 +368,7 @@ class CarouselClass{
   _setPosition(direction, position){
     let inPos, outPos;
 
-    if (direction === 'next') {
+    if (direction === 'next'){
       if (this.config.naturalScroll){
         inPos = position + 'px';
         outPos = -position + 'px';
@@ -416,23 +416,13 @@ class CarouselClass{
   _startAutoPlay(){
     this.itemOut = this.itemActive;
 
-    if (this.config.naturalScroll){
-      if (this.itemActive < this.items.length - 1){
-        this.itemActive++;
-      } else {
-        this.itemActive = 0;
-      }
-
-      this._setSelected('next');
+    if (this.itemActive < this.items.length - 1){
+      this.itemActive++;
     } else {
-      if (this.itemActive > 0){
-        this.itemActive--;
-      } else {
-        this.itemActive = this.items.length - 1;
-      }
-
-      this._setSelected('previous');
+      this.itemActive = 0;
     }
+
+    this._setSelected('next');
   }
 
   _stopAutoPlay(){
